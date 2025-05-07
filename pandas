@@ -1,0 +1,135 @@
+#6.5
+#1
+"""import pandas as pd
+
+df = pd.DataFrame({
+    "Фільм": ["Інтерстеллар", "Матриця", "Дюна"],
+    "Рейтинг": [8.6, 8.7, 8.0]
+
+})
+print(df)"""
+
+#2
+"""import pandas as pd
+
+# Завантаження даних з файлу
+df = pd.read_csv("movies_dataset.csv")
+
+# Відобразимо перші 5 рядків
+print(df)
+print(df.head())
+print(df.columns)
+print(df.shape)
+print(df.info())
+print(df.describe())
+print(df.isnull().sum())
+print(df.dropna())
+print(df.dropna(how='all'))
+print(df.dropna(subset=['wins', 'nominations']))"""
+
+#6.6
+"""import pandas as pd
+
+# Завантаження даних з файлу
+df = pd.read_csv("movies_dataset.csv")
+print(df[df['Rating']<7][['Title','Year','Rating']])
+print(df[df['grossWorldWide']>50000000])
+
+
+print(df.groupby('genres')['Rating'].mean())
+print(df.groupby('genres')['grossWorldWide'].mean())
+print("---------------")
+print(df.sort_values('Rating')[['Title', 'Rating']])
+print("---------------/--*-*")
+print(df.sort_values('Rating', ascending=False)[['Title', 'Rating']])
+print(df.sort_values('Year').head(5)[['Title', 'Year']])
+print(df[df['Year']==2003][['Title','Year','Rating']])
+
+df2 = pd.read_csv("education.csv")
+print(df2[df2['Year']==1950])
+print(df2[df2['Share of population with at least some basic education']==0])
+print(df2[df2['Entity']=="India"][['Year','Share of population with at least some basic education']])"""
+
+#6.7
+#1
+import matplotlib.pyplot as plt
+
+week_days = ['Понеділок', 'Вівторок', 'Середа', 'Четвер', 'Пятниця', 'Субота', 'Неділя']
+views = [0, 10, 42, 125, 379, 581, 1989]
+
+plt.plot(week_days, views)  
+plt.title("Приріст переглядів за тиждень")
+plt.xlabel("День тижня")
+plt.ylabel("Кількість переглядів")
+plt.show()
+#2
+import pandas as pd
+import matplotlib.pyplot as plt
+
+df = pd.read_csv("education.csv")
+brazil_data = df[df['Entity'] == 'Brazil']
+plt.figure(figsize=(10,6))
+plt.plot(brazil_data['Year'], brazil_data["Share of population with at least some basic education"], marker = 'o',color= 'b')
+plt.title('Зміни частки населення з базовою освітою в Бразилії', fontsize=14)
+plt.xlabel('Рік', fontsize=12)
+plt.ylabel('Частка населення з базовою освітою (%)', fontsize=12)
+plt.grid(True)
+plt.show()
+
+#3
+import matplotlib.pyplot as plt
+# Назви категорій
+categories = ['USA', 'India', 'China', 'Germany', 'UK']
+# Числові значення для кожної категорії
+values = [20, 15, 30, 10, 25]
+# Створення графіку з різними кольорами для кожного стовпця
+colors = ['red', 'blue', 'green', 'purple', 'orange']
+plt.bar(categories, values, color=colors)
+# Підписи до осей
+plt.xlabel('Країни')
+plt.ylabel('Значення')
+plt.title('Порівняння кількості для різних країн')
+# Показуємо графік
+plt.show()
+
+#4
+import pandas as pd
+import matplotlib.pyplot as plt
+
+# Завантаження даних
+df = pd.read_csv("billionaires.csv")
+# Підрахунок кількості мільярдерів у кожній індустрії
+industry_counts = df["Industry"].value_counts()
+# Побудова стовпчастої діаграми
+plt.figure(figsize=(12, 6))
+plt.bar(industry_counts.index, industry_counts.values, color="gold")
+# Оформлення графіку
+plt.xlabel("Індустрія")
+plt.ylabel("Кількість мільярдерів")
+plt.title("Розподіл мільярдерів за індустріями")
+plt.xticks(rotation=90) # Повертаємо підписи на осі X для зручності
+# Показуємо графік
+plt.show()
+
+#5
+import pandas as pd
+import matplotlib.pyplot as plt
+# Завантажуємо дані
+df = pd.read_csv("billionaires.csv")
+# Підраховуємо кількість мільярдерів у кожній індустрії
+industry_counts = df["Industry"].value_counts()
+# Беремо ТОП-5 індустрій, решту об'єднуємо в "Інші"
+top_industries = industry_counts[:5]
+top_industries["Інші"] = industry_counts[5:].sum()
+
+# Будуємо кругову діаграму
+plt.figure(figsize=(8, 8)) # Задаємо розмір
+plt.pie(
+top_industries,
+labels=top_industries.index,
+autopct="%1.1f%%", # Додаємо відсотки
+colors=plt.cm.Paired.colors, # Встановлюємо кольори
+startangle=140 # Повертаємо діаграму
+)
+plt.title("Розподіл мільярдерів за індустріями")
+plt.show()
