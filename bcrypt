@@ -1,0 +1,43 @@
+import bcrypt
+
+users_db = []
+def register_user():
+    username = input("Enter username: ")
+    password = input("Enter password: ")
+    salt = bcrypt.gensalt()
+    hashed_password = bcrypt.hashpw(password.encode("utf-8"),salt)
+    users_db.append({"username":username, 'hashed_password':hashed_password})
+    print(f"User {username} succesfully registred!")
+
+def login_user():
+    username = input("Enter username: ")
+    password = input("Enter password: ")
+    for user in users_db:
+        if user['username'] == username:
+            if bcrypt.checkpw(password.encode('utf-8'), user['hashed_password']):
+                print(f"Ласкаво просимо, {username}!\n")
+                return
+            else:
+                print("Невірний пароль!\n")
+                return
+        print(f"User {username} is not found!")
+
+def main():
+    while True:
+        print("1. Реєстрація")
+        print("2. Авторизація")
+        print("3. Вийти")
+        choice = input("Виберіть опцію (1/2/3): ")
+        if choice == '1':
+            register_user()
+        elif choice == '2':
+            login_user()
+        elif choice == '3':
+            print("До побачення!")
+            break
+        else:
+            print("Невірний вибір, спробуйте ще раз!\n")
+
+# Запуск програми
+if __name__ == "__main__":
+    main()
